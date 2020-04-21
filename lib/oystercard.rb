@@ -1,10 +1,11 @@
 class Oystercard
   LIMIT = 90
   MIN_FARE = 1
-  attr_reader :balance, :in_journey, :entry_station, :exit_station
+  attr_reader :balance, :in_journey, :entry_station, :exit_station, :journeys
 
   def initialize(balance = 0)
     @balance = balance
+    @journeys = []
     #@in_journey = false
   end
 
@@ -20,13 +21,19 @@ class Oystercard
   def touch_out(exit_station)
     touch_out_error if in_journey? == false
     deduct(MIN_FARE)
-    @entry_station = nil
     @exit_station = exit_station
+
+    hash = {entry: @entry_station, exit: @exit_station}
+    @journeys << hash
+
+    @entry_station = nil
+
   end
 
   def in_journey?
     @entry_station == nil ? false : true
   end
+
 
   private
   def exceeds_balance_error

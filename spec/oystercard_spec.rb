@@ -89,7 +89,14 @@ describe Oystercard do
     end
   end
 
-
+  describe '#journeys' do
+    include_context "above minimum"
+    it "allows viewing of list of journeys" do
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.journeys).to eq [{:entry => entry_station, :exit => exit_station }]
+    end
+  end
 
 
 
