@@ -12,7 +12,8 @@ describe Oystercard do
   limit = Oystercard::LIMIT
   min_fare = Oystercard::MIN_FARE
 
-  let(:station) { double() }
+  let(:entry_station) { double() }
+  let(:exit_station) { double() }
 
   it "has a balance" do
     expect(subject).to respond_to(:balance)
@@ -38,19 +39,19 @@ describe Oystercard do
     context "balance is" do
       include_context 'above minimum'
       it "checks if in_journey is true if card is touched in" do
-        subject.touch_in(station)
+        subject.touch_in(entry_station)
         expect(subject.in_journey?).to eq true
       end
 
       it "remembers entry_station" do
-        subject.touch_in(station)
-        expect(subject.entry_station).to eq(station)
+        subject.touch_in(entry_station)
+        expect(subject.entry_station).to eq(entry_station)
       end
     end
 
     context "card has less than £#{min_fare}" do
       it "raises an error" do
-        expect { subject.touch_in(station) }.to raise_error("Insufficient balance to travel, at least £#{min_fare} needed.")
+        expect { subject.touch_in(entry_station) }.to raise_error("Insufficient balance to travel, at least £#{min_fare} needed.")
       end
     end
   end
@@ -59,25 +60,31 @@ describe Oystercard do
     context "balance is" do
       include_context 'above minimum'
       it "checks if in_journey is false if card is touched out" do
-        subject.touch_in(station)
-        subject.touch_out
+        subject.touch_in(entry_station)
+        subject.touch_out(exit_station)
         expect(subject.in_journey?).to be false
       end
 
       it "checks if fare for the journey has been deducted from balance" do
-        subject.touch_in(station)
-        expect { subject.touch_out }.to change { subject.balance }.by(-1)
+        subject.touch_in(entry_station)
+        expect { subject.touch_out(exit_station) }.to change { subject.balance }.by(-1)
       end
 
       it "changes entry_station to be nil" do
-        subject.touch_in(station)
-        expect { subject.touch_out }.to change { subject.entry_station }.to be nil
+        subject.touch_in(entry_station)
+        expect { subject.touch_out(exit_station) }.to change { subject.entry_station }.to be nil
+      end
+
+      it "remembers exit station" do
+        subject.touch_in(entry_station)
+        subject.touch_out(exit_station)
+        expect(subject.exit_station).to eq exit_station
       end
     end
 
     context "card is touched out" do
       it "raises an error" do
-        expect { subject.touch_out }.to raise_error("Card not touched in")
+        expect { subject.touch_out(exit_station) }.to raise_error("Card not touched in")
       end
     end
   end

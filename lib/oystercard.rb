@@ -1,7 +1,7 @@
 class Oystercard
   LIMIT = 90
   MIN_FARE = 1
-  attr_reader :balance, :in_journey, :entry_station
+  attr_reader :balance, :in_journey, :entry_station, :exit_station
 
   def initialize(balance = 0)
     @balance = balance
@@ -13,14 +13,15 @@ class Oystercard
   end
 
   def touch_in(entry_station)
-    insufficient_balance_error if @balance < MIN_FARE 
+    insufficient_balance_error if @balance < MIN_FARE
     @entry_station = entry_station
   end
 
-  def touch_out
+  def touch_out(exit_station)
     touch_out_error if in_journey? == false
     deduct(MIN_FARE)
     @entry_station = nil
+    @exit_station = exit_station
   end
 
   def in_journey?
