@@ -43,14 +43,9 @@ describe Oystercard do
         expect(subject.in_journey?).to eq true
       end
 
-      it "remembers entry_station" do
-        subject.touch_in(entry_station)
-        expect(subject.entry_station).to eq(entry_station)
-      end
-
       it "remembers entry station in journeys" do
         subject.touch_in(entry_station)
-        expect(subject.journeys).to eq([{entry: entry_station}])
+        expect(subject.journeys).to eq([{entry: entry_station, exit: nil}])
       end
     end
 
@@ -73,17 +68,6 @@ describe Oystercard do
       it "checks if fare for the journey has been deducted from balance" do
         subject.touch_in(entry_station)
         expect { subject.touch_out(exit_station) }.to change { subject.balance }.by(-1)
-      end
-
-      it "changes entry_station to be nil" do
-        subject.touch_in(entry_station)
-        expect { subject.touch_out(exit_station) }.to change { subject.entry_station }.to be nil
-      end
-
-      it "remembers exit station" do
-        subject.touch_in(entry_station)
-        subject.touch_out(exit_station)
-        expect(subject.exit_station).to eq exit_station
       end
     end
 
