@@ -2,6 +2,7 @@ require './lib/oystercard'
 
 describe Oystercard do
   limit = Oystercard::LIMIT
+  min_fare = Oystercard::MIN_FARE
 
   it "has a balance" do
     expect(subject).to respond_to(:balance)
@@ -46,8 +47,8 @@ describe Oystercard do
     expect(subject.in_journey).to be_falsey
   end
 
-  it "expects touch_in to raise an error if the card has less than £1 balance" do
-    expect{ subject.touch_in }.to raise_error("Insufficient balance to travel")
+  it "expects touch_in to raise an error if the card has less than £#{min_fare} balance" do
+    expect{ subject.touch_in }.to raise_error("Insufficient balance to travel, at least £#{min_fare} needed.")
   end
 
 end

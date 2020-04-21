@@ -31,7 +31,7 @@ class Oystercard
   end
 
   def insufficient_balance
-    raise "Insufficient balance to travel"
+    raise "Insufficient balance to travel, at least £#{MIN_FARE} needed."
   end
 
 end
