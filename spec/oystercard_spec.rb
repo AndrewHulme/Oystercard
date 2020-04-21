@@ -64,6 +64,13 @@ describe Oystercard do
         subject.touch_out
         expect(subject.in_journey).to be false
       end
+
+      it "checks if fare for the journey has been deducted from balance" do
+        subject.touch_in
+        subject.touch_out
+        expect(subject.balance).to eq 49
+      end
+
     end
   end
 end
