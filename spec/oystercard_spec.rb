@@ -39,7 +39,7 @@ describe Oystercard do
       include_context 'above minimum'
       it "checks if in_journey is true if card is touched in" do
         subject.touch_in(station)
-        expect(subject.in_journey).to eq true
+        expect(subject.in_journey?).to eq true
       end
 
       it "remembers entry_station" do
@@ -61,7 +61,7 @@ describe Oystercard do
       it "checks if in_journey is false if card is touched out" do
         subject.touch_in(station)
         subject.touch_out
-        expect(subject.in_journey).to be false
+        expect(subject.in_journey?).to be false
       end
 
       it "checks if fare for the journey has been deducted from balance" do
