@@ -23,7 +23,7 @@ class Oystercard
     deduct(MIN_FARE)
     @exit_station = exit_station
 
-    @journeys[0][:exit] = exit_station
+    @journeys[@journeys.length - 1][:exit] = exit_station
 
     @entry_station = nil
 
