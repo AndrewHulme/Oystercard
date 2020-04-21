@@ -34,14 +34,20 @@ describe Oystercard do
   end
 
   it "checks if in_journey is true if card is touched in" do
+    subject.top_up(50)
     subject.touch_in
     expect(subject.in_journey).to eq true
   end
 
   it "checks if in_journey is false if card is touched out" do
+    subject.top_up(50)
     subject.touch_in
     subject.touch_out
     expect(subject.in_journey).to be_falsey
+  end
+
+  it "expects touch_in to raise an error if the card has less than £1 balance" do
+    expect{ subject.touch_in }.to raise_error("Insufficient balance to travel")
   end
 
 end
