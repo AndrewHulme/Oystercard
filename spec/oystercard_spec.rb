@@ -91,6 +91,10 @@ describe Oystercard do
 
   describe '#journeys' do
     include_context "above minimum"
+    it "checks the card has an empty list of journeys by default" do
+      expect(subject.journeys).to be_empty
+    end
+
     it "allows viewing of list of journeys" do
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
