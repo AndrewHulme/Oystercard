@@ -18,7 +18,7 @@ class Oystercard
   end
 
   def touch_in
-    @balance >= MIN_FARE ? @in_journey = true : (raise "Insufficient balance to travel")
+    @balance >= MIN_FARE ? @in_journey = true : insufficient_balance
   end
 
   def touch_out
@@ -28,6 +28,10 @@ class Oystercard
   private
   def exceeds_balance
     raise "Exceeds balance limit of #{LIMIT}"
+  end
+
+  def insufficient_balance
+    raise "Insufficient balance to travel"
   end
 
 end
