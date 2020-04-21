@@ -6,7 +6,6 @@ class Oystercard
   def initialize(balance = 0)
     @balance = balance
     @journeys = []
-    #@in_journey = false
   end
 
   def top_up(amount)
@@ -15,6 +14,7 @@ class Oystercard
 
   def touch_in(entry_station)
     insufficient_balance_error if @balance < MIN_FARE
+    journeys << {entry: entry_station}
     @entry_station = entry_station
   end
 
@@ -23,8 +23,7 @@ class Oystercard
     deduct(MIN_FARE)
     @exit_station = exit_station
 
-    hash = {entry: @entry_station, exit: @exit_station}
-    @journeys << hash
+    @journeys[0][:exit] = exit_station
 
     @entry_station = nil
 

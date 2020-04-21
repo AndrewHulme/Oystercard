@@ -47,6 +47,11 @@ describe Oystercard do
         subject.touch_in(entry_station)
         expect(subject.entry_station).to eq(entry_station)
       end
+
+      it "remembers entry station in journeys" do
+        subject.touch_in(entry_station)
+        expect(subject.journeys).to eq([{entry: entry_station}])
+      end
     end
 
     context "card has less than £#{min_fare}" do
