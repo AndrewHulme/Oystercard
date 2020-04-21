@@ -68,6 +68,11 @@ describe Oystercard do
         subject.touch_in(station)
         expect { subject.touch_out }.to change { subject.balance }.by(-1)
       end
+
+      it "changes entry_station to be nil" do
+        subject.touch_in(station)
+        expect { subject.touch_out }.to change { subject.entry_station }.to be nil
+      end
     end
 
     context "card is touched out" do
