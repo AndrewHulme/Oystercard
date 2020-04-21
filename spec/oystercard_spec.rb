@@ -61,7 +61,25 @@ describe Oystercard do
         subject.touch_in
         expect { subject.touch_out }.to change { subject.balance }.by(-1)
       end
+    end
 
+    context "card is touched out" do
+      it "raises an error" do
+        expect { subject.touch_out }.to raise_error("Card not touched in")
+      end
     end
   end
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
